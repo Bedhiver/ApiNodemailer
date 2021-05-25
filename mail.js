@@ -9,7 +9,13 @@ let transporter = nodemailer.createTransport({
   },
 });
 
-const sendMail = (name, email, subject, text, cb) => {
+transporter.verify((err, success) => {
+  err
+    ? console.log(err)
+    : console.log(`Server is ready to take messages: ${success}`);
+});
+
+const sendMail = (resp, name, email, subject, text) => {
   let mailOptions = {
     sender: name,
     from: "francisco59553@gmail.com",
@@ -18,11 +24,12 @@ const sendMail = (name, email, subject, text, cb) => {
     text: `${name} : ${text}`,
   };
 
-  transporter.sendMail(mailOptions, function (err, data) {
+  transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
-      cb(err, null);
+      console.log(`Error : ${err}`);
     } else {
-      cb(null, data);
+      console.log("Email sent");
+      resp.json({ status: "Email sent (response)" });
     }
   });
 };
