@@ -15,7 +15,9 @@ app.use(
 app.use(express.json());
 
 let transporter = nodemailer.createTransport({
-  service: "gmail",
+  // service: "gmail",
+  host: "ssl0.ovh.net",
+  port: 587,
   auth: {
     user: process.env.EMAIL,
     pass: process.env.PASSWORD,
@@ -34,7 +36,7 @@ app.post("/send", (req, res) => {
 
   let mailOptions = {
     sender: name,
-    from: "francisco59553@gmail.com",
+    from: "contact-pro@francisco-fernandez.fr",
     to: "francisco59553@gmail.com",
     subject: `${name} - ${email}`,
     text: message,
@@ -42,7 +44,7 @@ app.post("/send", (req, res) => {
 
   transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
-      res.status(500).json({ message: "Internal error", erreur: `${err}` });
+      res.status(500).json({ message: "Internal error", error: `${err}` });
       console.log(`Error : ${err}`);
     } else {
       console.log("Email sent !");
