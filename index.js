@@ -42,7 +42,7 @@ app.post("/send", (req, res) => {
 
   transporter.sendMail(mailOptions, (err, data) => {
     if (err) {
-      res.status(500).json({ message: "Internal error" });
+      res.status(500).json({ message: "Internal error", erreur: `${err}` });
       console.log(`Error : ${err}`);
     } else {
       console.log("Email sent !");
