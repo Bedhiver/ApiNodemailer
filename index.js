@@ -3,8 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
-const router = express.Router();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const app = express();
 app.use(cors());
@@ -30,15 +29,15 @@ transporter.verify((err, success) => {
 });
 
 app.post("/send", (req, res) => {
-  const { name, email, subject, message } = req.body;
+  const { name, email, message } = req.body;
   console.log("Data : ", req.body);
 
   let mailOptions = {
     sender: name,
     from: "francisco59553@gmail.com",
     to: "francisco59553@gmail.com",
-    subject: `${email} - ${subject}`,
-    text: `${name} : ${message}`,
+    subject: `${name} - ${email}`,
+    text: message,
   };
 
   transporter.sendMail(mailOptions, (err, data) => {
@@ -48,25 +47,9 @@ app.post("/send", (req, res) => {
     } else {
       console.log("Email sent !");
       res.status(200).json({ message: "Email sent" });
-      // res.json({ status: "Email sent (response)" });
     }
   });
 });
-
-// app.post("/send", (req, res) => {
-//   const { name, email, subject, message } = req.body;
-//   console.log("Data : ", req.body);
-
-//   sendMail(name, email, subject, message, function (err, data) {
-//     if (err) {
-//       res.status(500).json({ message: "Internal error" });
-//     } else {
-//       console.log(`response!!!!`);
-//       res.status({ message: "Email sent" });
-//       console.log(`response === ${res}`);
-//     }
-//   });
-// });
 
 app.listen(PORT, () => {
   console.log("Server starting on PORT, ", 8080);
