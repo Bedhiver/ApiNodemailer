@@ -30,6 +30,12 @@ transporter.verify((err, success) => {
     : console.log(`Server is ready to take messages: ${success}`);
 });
 
+app.get("/cv", (req, res) => {
+  const file = `${__dirname}/resources/CVDevNode.pdf`;
+  console.log(file);
+  res.download(file);
+});
+
 app.post("/send", (req, res) => {
   const { name, email, message } = req.body;
   console.log("Data : ", req.body);
