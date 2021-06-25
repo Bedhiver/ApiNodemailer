@@ -31,7 +31,7 @@ transporter.verify((err, success) => {
 });
 
 app.get("/cv", (req, res) => {
-  const file = `${__dirname}/resources/CVDevNode.pdf`;
+  const file = `${__dirname}/resources/CVJavascript.pdf`;
   console.log(file);
   res.download(file);
 });
